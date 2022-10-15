@@ -1,4 +1,4 @@
-MAIN_DIR: '/home/zhangrui/AIC22_Track1_MTMC_ID10'
+MAIN_DIR: 'C:\Users\tanuz\Desktop\REPO-2022\AIC22_Track1_MTMC_ID10\'
 DET_SOURCE_DIR: 'datasets/AIC22_Track1_MTMC_Tracking/test/S06/images/test/S06'
 REID_MODEL: 'models/reid/resnext101_ibn_a_2.pth'
 REID_BACKBONE: 'resnext101_ibn_a'

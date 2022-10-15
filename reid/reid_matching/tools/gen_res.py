@@ -53,7 +53,7 @@ if __name__ == '__main__':
         cid = int(cam_path.split('.')[0][-3:])
         
         roi = cv2.imread(opj(roi_dir, '{}/roi.jpg'.format(cam_path.split('.')[0][-4:])), 0)
-        height, width = roi.shape
+        #height, width = roi.shape if roi is not None else 1080,1920
         img_rects = parse_pt(opj(mot_dir, cam_path,'{}_mot_feat_break.pkl'.format(cam_path)))
         for fid in img_rects:
             tid_rects = img_rects[fid]
@@ -72,7 +72,8 @@ if __name__ == '__main__':
                 rect[0] = max(0, rect[0])
                 rect[1] = max(0, rect[1])
                 x1, y1 = max(0, cx - 0.5*w), max(0, cy - 0.5*h)
-                x2, y2 = min(width, cx + 0.5*w), min(height, cy + 0.5*h)
+                #x2, y2 = min(width, cx + 0.5*w), min(height, cy + 0.5*h)
+                x2, y2 = cx + 0.5*w, cy + 0.5*h
                 w , h = x2-x1 , y2-y1
 
                 new_rect = list(map(int, [x1, y1, w, h]))

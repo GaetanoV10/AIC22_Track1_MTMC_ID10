@@ -46,7 +46,7 @@ def gather_sequence_info(sequence_dir, detection_file, max_frame):
     """
     image_dir = os.path.join(sequence_dir, "img1")
     image_filenames = {
-            int(os.path.splitext(f)[0][3:]): os.path.join(image_dir, f)
+            int(os.path.splitext(f)[0][5:]): os.path.join(image_dir, f)
         for f in os.listdir(image_dir)}
     groundtruth_file = os.path.join(sequence_dir, "gt/gt.txt")
 
@@ -84,7 +84,7 @@ def gather_sequence_info(sequence_dir, detection_file, max_frame):
     feat_dic = {}
     for image_name in det_feat_dic:
         frame_index = image_name.split('_')[0]
-        frame_index = int(frame_index[3:])
+        frame_index = int(frame_index[5:])
         det_bbox = np.array(det_feat_dic[image_name]['bbox']).astype('float32')
         det_feat = det_feat_dic[image_name]['feat']
         score = det_feat_dic[image_name]['conf']

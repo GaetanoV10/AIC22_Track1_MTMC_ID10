@@ -1,5 +1,5 @@
 # Main path of project
-MAIN_DIR: '/home/zhangrui/AIC22_Track1_MTMC_ID10/'
+MAIN_DIR: 'C:\Users\tanuz\Desktop\REPO-2022\AIC22_Track1_MTMC_ID10\'
 
 # test data dir
 CHALLENGE_DATA_DIR: 'datasets/AIC22_Track1_MTMC_Tracking/test/'
@@ -21,6 +21,9 @@ USE_FF: True
 SCORE_THR: 0.1
 
 # ReID Ensemble
-ENSEMBLE_SEQ: ['detect_reid1', 'detect_reid2', 'detect_reid3']
-CAM_SEQ: ['c041', 'c042', 'c043', 'c044', 'c045', 'c046']
-CAM_CLUSTER: [[41, 42, 43, 44, 45, 46]]
+#ENSEMBLE_SEQ: ['detect_reid1', 'detect_reid2', 'detect_reid3']
+ENSEMBLE_SEQ: ['detect_reid1']
+#CAM_SEQ: ['c041', 'c042', 'c043', 'c044', 'c045', 'c046']
+CAM_SEQ: ['c041', 'c042']
+#CAM_CLUSTER: [[41, 42, 43, 44, 45, 46]]
+CAM_CLUSTER: [[41, 42]]

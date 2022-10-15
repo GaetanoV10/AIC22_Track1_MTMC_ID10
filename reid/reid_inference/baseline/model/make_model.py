@@ -170,7 +170,12 @@ class Backbone(nn.Module):
         for i in param_dict:
             if 'classifier' in i or 'arcface' in i:
                 continue
-            self.state_dict()[i.replace('module.','')].copy_(param_dict[i])
+            for k in self.state_dict():
+                print(k)
+            for i in param_dict:
+                print(i)
+            self.state_dict()[('base.' + i)].copy_(param_dict[i])
+            #self.state_dict()[i.replace('module.','')].copy_(param_dict[i])
         print('Loading pretrained model from {}'.format(trained_path))
 
     def load_un_param(self, trained_path):

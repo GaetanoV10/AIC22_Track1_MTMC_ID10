@@ -216,7 +216,7 @@ if __name__ == '__main__':
         mot_list = parse_pt(mot_path,zones)
         mot_list = zones.break_mot(mot_list, cid)
         # mot_list = zones.comb_mot(mot_list, cid)
-        mot_list = zones.filter_mot(mot_list, cid) # filter by zone
+        #mot_list = zones.filter_mot(mot_list, cid) # filter by zone
         mot_list = zones.filter_bbox(mot_list, cid)  # filter bbox
         out_new_mot(mot_list, new_mot_path)
 

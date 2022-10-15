@@ -128,6 +128,7 @@ class zone():
             new_frame_list = list()
             if 0 in bbox_x or 0 in bbox_y:
                 b0 = [i for i, f in enumerate(frame_list) if bbox_x[i]<5 or bbox_y[i]+bbox_h[i]>yh-5]
+                #print(len(b0))
                 if len(b0)==len(frame_list):
                     if cid in [41,42,44,45,46]:
                         continue
@@ -138,19 +139,23 @@ class zone():
                             new_frame_list.append(f)
                 else:
                     l_i,r_i = 0,len(frame_list)-1
-                    if b0[0]==0:
-                        for i in range(len(b0)-1):
-                            if b0[i]+1==b0[i+1]:
-                                l_i=b0[i+1]
-                            else:
-                                break
-                    if b0[-1]==len(frame_list)-1:
-                        for i in range(len(b0) - 1):
-                            i = len(b0)-1-i
-                            if b0[i]-1==b0[i-1]:
-                                r_i=b0[i-1]
-                            else:
-                                break
+                    try:
+                        if b0[0]==0:
+                            for i in range(len(b0)-1):
+                                if b0[i]+1==b0[i+1]:
+                                    l_i=b0[i+1]
+                                else:
+                                    break
+                    
+                        if b0[-1]==len(frame_list)-1:
+                            for i in range(len(b0) - 1):
+                                i = len(b0)-1-i
+                                if b0[i]-1==b0[i-1]:
+                                    r_i=b0[i-1]
+                                else:
+                                    break
+                    except IndexError:
+                        pass
 
                     max_lw, max_lh = bbox_w[l_i], bbox_h[l_i]
                     max_rw, max_rh = bbox_w[r_i], bbox_h[r_i]

@@ -11,8 +11,8 @@ from math import *
 from sklearn import preprocessing
 import tqdm
 
-CAM_DIST = [[  0, 40, 55,100,120,145],
-            [ 40,  0, 15, 60, 80,105],
+CAM_DIST = [[  0, 25, 55,100,120,145],
+            [ 25,  0, 15, 60, 80,105],
             [ 55, 15,  0, 40, 65, 90],
             [100, 60, 40,  0, 20, 45],
             [120, 80, 65, 20,  0, 25],
@@ -88,15 +88,15 @@ def st_filter(st_mask, cid_tids,cid_tid_dict):
             match_dire = True
             cam_dist = CAM_DIST[i_cid-41][j_cid-41]
             # 如果时间重叠
-            if i_iot[0]-cam_dist<j_iot[0] and j_iot[0]<i_iot[1]+cam_dist:
+            """if i_iot[0]-cam_dist<j_iot[0] and j_iot[0]<i_iot[1]+cam_dist:
                 match_dire = False
             if i_iot[0]-cam_dist<j_iot[1] and j_iot[1]<i_iot[1]+cam_dist:
-                match_dire = False
+                match_dire = False"""
 
             # 出去后不再匹配
-            if i_dire[1] in [1,2]: # i out
+            """if i_dire[1] in [1,2]: # i out
                 if i_iot[0] < j_iot[1]+cam_dist:
-                    match_dire = False
+                    match_dire = False"""
 
             if i_dire[1] in [1,2]:
                 if i_dire[0] in [3] and i_cid>j_cid:
@@ -104,14 +104,14 @@ def st_filter(st_mask, cid_tids,cid_tid_dict):
                 if i_dire[0] in [4] and i_cid<j_cid:
                     match_dire = False
 
-            if i_cid in [41] and i_dire[1] in [4]:
+            """if i_cid in [41] and i_dire[1] in [4]:
                 if i_iot[0] < j_iot[1]+cam_dist:
                     match_dire = False
                 if i_iot[1] > 199:
                     match_dire = False
             if i_cid in [46] and i_dire[1] in [3]:
                 if i_iot[0] < j_iot[1]+cam_dist:
-                    match_dire = False
+                    match_dire = False"""
 
             # 进入才匹配
             if i_dire[0] in [1,2]:  # i in
@@ -151,31 +151,31 @@ def st_filter(st_mask, cid_tids,cid_tid_dict):
                 ## ↑ 3-30
 
                 ## 4-1
-                if i_dire[0] in [3] and i_cid > j_cid:
+                """if i_dire[0] in [3] and i_cid > j_cid:
                     if i_iot[1]>j_iot[0]-cam_dist:
                         match_dire = False
                 if i_dire[0] in [4] and i_cid < j_cid:
                     if i_iot[1]>j_iot[0]-cam_dist:
-                        match_dire = False
+                        match_dire = False"""
                 ##
 
                 # 去下一场景之后的过滤
                 ## 4-7
-                if i_dire[1] in [3] and i_cid > j_cid:
+                """if i_dire[1] in [3] and i_cid > j_cid:
                     if i_iot[0]<j_iot[1]+cam_dist:
                         match_dire = False
                 if i_dire[1] in [4] and i_cid < j_cid:
                     if i_iot[0]<j_iot[1]+cam_dist:
-                        match_dire = False
+                        match_dire = False"""
                 ##
             else:
                 if i_iot[1]>199:
-                    if i_dire[0] in [3] and i_cid < j_cid:
+                    """if i_dire[0] in [3] and i_cid < j_cid:
                         if i_iot[0] < j_iot[0] + cam_dist:
                             match_dire = False
                     if i_dire[0] in [4] and i_cid > j_cid:
                         if i_iot[0] < j_iot[0] + cam_dist:
-                            match_dire = False
+                            match_dire = False"""
                     if i_dire[0] in [3] and i_cid > j_cid:
                         match_dire = False
                     if i_dire[0] in [4] and i_cid < j_cid:
@@ -198,10 +198,16 @@ def subcam_list(cid_tid_dict,cid_tids):
         cid,tid = cid_tid
         tracklet = cid_tid_dict[cid_tid]
         zs,ze = get_dire(tracklet['zone_list'], cid)
+        #print(zs, ze)
         if zs in [3] and cid not in [46]: # 4 to 3
             if not cid+1 in sub_4_3:
                 sub_4_3[cid+1] = []
             sub_4_3[cid + 1].append(cid_tid)
+        """elif zs in [3] and cid in [42]:
+            if not cid+1 in sub_4_3:
+                sub_4_3[cid+1] = []
+            sub_4_3[cid + 1].append(cid_tid)"""
+
         if ze in [4] and cid not in [41]: # 4 to 3
             if not cid in sub_4_3:
                 sub_4_3[cid] = []
@@ -230,7 +236,7 @@ def subcam_list(cid_tid_dict,cid_tids):
     #     if len(list(iset)) > 0:
     #         print(f"conflit:{list(iset)}")
     #         input("...")
-            
+
     return sub_cid_tids
 
 def subcam_list2(cid_tid_dict,cid_tids):

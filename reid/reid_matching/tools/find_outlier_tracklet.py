@@ -596,7 +596,6 @@ def renew_tracklets(tid_cid_dict: dict):
 if __name__ == "__main__":
     cfg.merge_from_file(f'../../../config/{sys.argv[1]}')
     cfg.freeze()
-
     output_txt = os.path.join(cfg.OUTPUT_DIR, cfg.MCMT_OUTPUT_TXT)
     cluster_path = os.path.join(cfg.OUTPUT_DIR,'test_cluster.pkl')
     data_dir = cfg.DATA_DIR
@@ -613,7 +612,7 @@ if __name__ == "__main__":
     for cam_path in cam_paths:
         cid = int(cam_path.split('.')[0][-3:])
         roi = cv2.imread(opj(roi_dir, '{}/roi.jpg'.format(cam_path.split('.')[0][-4:])), 0)
-        height, width = roi.shape
+        #height, width = roi.shape
         img_rects = parse_pt(opj(mot_dir, cam_path,'{}_mot_feat_break.pkl'.format(cam_path)))
         for fid in img_rects:
             tid_rects = img_rects[fid]
@@ -634,7 +633,8 @@ if __name__ == "__main__":
                 rect[0] = max(0, rect[0])
                 rect[1] = max(0, rect[1])
                 x1, y1 = max(0, cx - 0.5*w), max(0, cy - 0.5*h)
-                x2, y2 = min(width, cx + 0.5*w), min(height, cy + 0.5*h)
+                #x2, y2 = min(width, cx + 0.5*w), min(height, cy + 0.5*h)
+                x2, y2 = cx + 0.5*w, cy + 0.5*h
                 w , h = x2-x1 , y2-y1
 
                 new_rect = list(map(int, [x1, y1, w, h]))
@@ -653,12 +653,7 @@ if __name__ == "__main__":
     
     
     """
-    ### 过滤规则
-    * 速度及加速度异常:非最后cam的tracklet若出现速度和加速度均为0的情况,则认为是异常情况,且后面的所有轨迹都被删除,因为出现速度和加速度均为0一般是等红灯,若到视频结束，依旧未动，车辆不可能在下一个相邻cam出现；若出现速度为0，加速度非0情况，也认为是异常情况；
-    * 检测方向冲突：同一`fid`下的time序列,是否同时出现`(cid, cid+1),(cid+2, cid+1)...`这种情况，正常情况是`(cid,cid+1),(cid+1,cid+2)`
-    * 聚类+异常值分析:结合相邻cam one hot,耗时,速度,加速度分析
-    * 轨迹长度过短
-    * 单一镜头轨迹
+    ###  
     """
     print(f"num of old tracklets: {len(tid_cid_dict)}")
 
@@ -668,20 +663,20 @@ if __name__ == "__main__":
     tid_cid_speeds = calc_c2c_speed(tid_cid_dict)
     
     ## speed check
-    error_tid_speed = find_speed_outliers(tid_cid_speeds, tid_cid_traj_len)
+    """error_tid_speed = find_speed_outliers(tid_cid_speeds, tid_cid_traj_len)
     print(f"speed outliers: {error_tid_speed}")
     # delete outliers
     tid_cid_dict = del_speed_outlier(error_tid_speed, tid_cid_dict)
     # update
     tid_cid_costs, tid_c2cs = calc_c2c_cost(tid_cid_dict)
     tid_cid_speeds = calc_c2c_speed(tid_cid_dict)
-    #print(f"speed outliers after filtering:{error_tid_speed}")
+    #print(f"speed outliers after filtering:{error_tid_speed}")"""
 
     ## direction check
-    error_tid_c2c = find_direct_outliers(tid_cid_costs)
-    print(f"direction outliers:{error_tid_c2c}")
+    #error_tid_c2c = find_direct_outliers(tid_cid_costs)
+    #print(f"direction outliers:{error_tid_c2c}")
     ## delete outliers
-    tid_cid_dict = del_direct_outlier(error_tid_c2c, tid_cid_dict)
+    #tid_cid_dict = del_direct_outlier(error_tid_c2c, tid_cid_dict)
     ## update
     tid_cid_costs, tid_c2cs = calc_c2c_cost(tid_cid_dict)
     tid_cid_speeds = calc_c2c_speed(tid_cid_dict)

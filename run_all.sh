@@ -6,25 +6,25 @@ REID1_CONFIG_FILE="temp_reid1.yml"
 REID2_CONFIG_FILE="temp_reid2.yml"
 REID3_CONFIG_FILE="temp_reid3.yml"
 cd config/
-python process_yml.py "aic_all.yml" ${MCMT_CONFIG_FILE}
-python process_yml.py "aic_reid1.yml" ${REID1_CONFIG_FILE}
-python process_yml.py "aic_reid2.yml" ${REID2_CONFIG_FILE}
-python process_yml.py "aic_reid3.yml" ${REID3_CONFIG_FILE}
+py process_yml.py "aic_all.yml" ${MCMT_CONFIG_FILE}
+py process_yml.py "aic_reid1.yml" ${REID1_CONFIG_FILE}
+py process_yml.py "aic_reid2.yml" ${REID2_CONFIG_FILE}
+py process_yml.py "aic_reid3.yml" ${REID3_CONFIG_FILE}
 
 ### Pre-pocesssing ####
 cd ../detector/
-python gen_images_aic.py ${MCMT_CONFIG_FILE}
+#py gen_images_aic.py ${MCMT_CONFIG_FILE}
 
 # #### Run Detector.####
 cd yolov5/
-bash gen_det.sh ${MCMT_CONFIG_FILE}
+#bash gen_det.sh ${MCMT_CONFIG_FILE}
 
 # #### Extract reid feautres.####
 cd ../../reid/
-python extract_image_feat.py ${REID1_CONFIG_FILE}
-python extract_image_feat.py ${REID2_CONFIG_FILE}
-python extract_image_feat.py ${REID3_CONFIG_FILE}
-python merge_reid_feat.py ${MCMT_CONFIG_FILE}
+py extract_image_feat.py ${REID1_CONFIG_FILE}
+#py extract_image_feat.py ${REID2_CONFIG_FILE}
+#py extract_image_feat.py ${REID3_CONFIG_FILE}
+py merge_reid_feat.py ${MCMT_CONFIG_FILE}
 
 # # # # #### ByteTrack with occlusion handling. ####
 cd ../tracker/ByteTrack
@@ -62,7 +62,7 @@ NUM_BOTTLENECK_DIM=0
 # # ====================================================
 
 
-python trajectory_fusion.py \
+py trajectory_fusion.py \
     --mcmt_config $MCMT_CONFIG_FILE \
     --pretrained_weights $PRETRAINED \
     --linear_cls_weights $LCB_PRETRAINED \
@@ -74,11 +74,11 @@ python trajectory_fusion.py \
     --num_labels $NUM_LABELS \
     ${@:4}
 
-python sub_cluster.py ${MCMT_CONFIG_FILE}
-python gen_res.py ${MCMT_CONFIG_FILE}
+py sub_cluster.py ${MCMT_CONFIG_FILE}
+py gen_res.py ${MCMT_CONFIG_FILE}
 
 #### Post-Processing ####
-python find_outlier_tracklet.py ${MCMT_CONFIG_FILE}
+'C:\\Users\\tanuz\\AppData\\Local\\Programs\\Python\\Python39\\python.exe' find_outlier_tracklet.py ${MCMT_CONFIG_FILE}
 
 #### Delete temporal configs
 cd ../../../config

@@ -13,7 +13,7 @@ class zone_tracker():
     def update(self,det):
         have_up = False
         det_time = int(det['frame'][3:])
-        det_x = 1280 - (det['bbox'][2]+det['bbox'][0])/2
+        det_x = 1920 - (det['bbox'][2]+det['bbox'][0])/2
         det_y = (det['bbox'][3]+det['bbox'][1])/2
         max_sim = 0
         max_zi = 0
@@ -39,7 +39,7 @@ class zone_tracker():
                         self.zone_list[zi] = det
                         have_up = True
                         break
-            zl_x = 1280 - (zl['bbox'][2] + zl['bbox'][0]) / 2
+            zl_x = 1920 - (zl['bbox'][2] + zl['bbox'][0]) / 2
             zl_y = (zl['bbox'][3] + zl['bbox'][1]) / 2
             if det_x<zl_x+10 and det_y<zl_y+10:
                 continue

@@ -30,7 +30,7 @@ def parse_tid_cid_rect(cid_tid_label, cam_img_rects, cam_img_rois):
     newtid_cid_oldtid_dict = {}
     for cid, img_rects in cam_img_rects.items():
         roi = cam_img_rois[cid]
-        height, width = roi.shape
+        #height, width = roi.shape if roi is not None else 1080,1920
         cid = int(cid.split("c")[-1])
         for fid in img_rects:
             tid_rects = img_rects[fid]
@@ -49,7 +49,8 @@ def parse_tid_cid_rect(cid_tid_label, cam_img_rects, cam_img_rois):
                 rect[0] = max(0, rect[0])
                 rect[1] = max(0, rect[1])
                 x1, y1 = max(0, cx - 0.5*w), max(0, cy - 0.5*h)
-                x2, y2 = min(width, cx + 0.5*w), min(height, cy + 0.5*h)
+                #x2, y2 = min(width, cx + 0.5*w), min(height, cy + 0.5*h)
+                x2, y2 = cx + 0.5*w, cy + 0.5*h
                 w , h = x2-x1 , y2-y1
 
                 new_rect = list(map(int, [x1, y1, w, h]))
@@ -84,8 +85,6 @@ def get_sim_matrix(_cfg,cid_tid_dict,cid_tids,c2c,conflit_tids=[], is_norm=True)
 
     q_arr = np.array([cid_tid_dict[cid_tids[i]]['mean_feat'] for i in range(count)])
     g_arr = np.array([cid_tid_dict[cid_tids[i]]['mean_feat'] for i in range(count)])
-    print(q_arr.shape)
-    print(g_arr.shape)
 
     if is_norm:
         q_arr = normalize(q_arr, axis=1)

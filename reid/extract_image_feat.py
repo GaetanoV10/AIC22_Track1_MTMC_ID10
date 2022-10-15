@@ -17,7 +17,7 @@ sys.path.append('../')
 from config import cfg
 
 BATCH_SIZE = 64
-NUM_PROCESS = 8
+NUM_PROCESS = 1
 def chunks(l):
     return [l[i:i+BATCH_SIZE] for i in range(0, len(l), BATCH_SIZE)]
 
@@ -116,8 +116,8 @@ def save_feature(output_path, data_path, pool_output):
 
     for sample_dic in pool_output:
         for image_path, feat in sample_dic.items():
-            cam = image_path.split('/')[-3]
-            image_name = image_path.split('/')[-1].split('.')[0]
+            cam = image_path.split('\\')[-3]
+            image_name = image_path.split('\\')[-1].split('.')[0]
             all_feat_dic[cam][image_name]['feat'] = feat
     for cam, feat_dic in all_feat_dic.items():
         if not os.path.isdir(os.path.join(output_path, cam)):
@@ -138,6 +138,7 @@ def extract_image_feat(_cfg):
     gpu_id_cycle_iterator = cycle(range(0, 8))
     for _ in range(num_process):
         gpu_ids.put(next(gpu_id_cycle_iterator))
+    print('GPUID {}', gpu_ids)
 
     process_pool = Pool(processes=num_process, initializer=init_worker, initargs=(gpu_ids, _cfg, ))
     start_time = time.time()

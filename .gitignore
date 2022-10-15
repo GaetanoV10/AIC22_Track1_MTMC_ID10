@@ -9,3 +9,5 @@ config/temp_*
 *.pth
 *.pkl
 *.jpg
+*.png
+*.txt

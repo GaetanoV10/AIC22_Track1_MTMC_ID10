@@ -5,10 +5,10 @@
 
 MCMT_CONFIG_FILE="temp_aic_all.yml"
 cd config/
-python process_yml.py "aic_all.yml" ${MCMT_CONFIG_FILE}
+py process_yml.py "aic_all.yml" ${MCMT_CONFIG_FILE}
 
 cd ../detector/
-python gen_images_aic.py ${MCMT_CONFIG_FILE}
+#py gen_images_aic.py ${MCMT_CONFIG_FILE}
 
 # # # # #### ByteTrack with occlusion handling. ####
 cd ../tracker/ByteTrack
@@ -31,7 +31,7 @@ KEY_LIST=($(echo $KEY | tr "," "\n"))
 NUM_BOTTLENECK_DIM=0
 # # ====================================================
 
-python trajectory_fusion.py \
+py trajectory_fusion.py \
     --mcmt_config $MCMT_CONFIG_FILE \
     --pretrained_weights $PRETRAINED \
     --linear_cls_weights $LCB_PRETRAINED \
@@ -43,11 +43,11 @@ python trajectory_fusion.py \
     --num_labels $NUM_LABELS \
     ${@:4}
 
-python sub_cluster.py ${MCMT_CONFIG_FILE}
-python gen_res.py ${MCMT_CONFIG_FILE}
+py sub_cluster.py ${MCMT_CONFIG_FILE}
+py gen_res.py ${MCMT_CONFIG_FILE}
 
 #### Post-Processing ####
-python find_outlier_tracklet.py ${MCMT_CONFIG_FILE}
+py find_outlier_tracklet.py ${MCMT_CONFIG_FILE}
 
 #### Delete temporal configs
 cd ../../../config

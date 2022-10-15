@@ -159,9 +159,11 @@ def detect(save_img=False):
                         cv2.imwrite(det_img_path,img_det[y1:y2,x1:x2])
                         out_dict[det_name] = {
                             'bbox': (x1,y1,x2,y2),
-                            'frame': p.stem,
+                            #'frame': p.stem,
+                            'frame': det_path[det_path.index('dets')+5:],
                             'id': det_num,
-                            'imgname': det_name+".png",
+                            #'imgname': det_name+".png",
+                            'imgname': det_img_path[det_img_path.index('dets')+5:],
                             'class': det_class,
                             'conf': det_conf
                         }
